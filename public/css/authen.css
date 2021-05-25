@@ -1,0 +1,235 @@
+:root{
+    --primary-color:#a3c9de;
+    --second-color:	#85a6c5;
+    --third-color:	#6e9ab5;
+    --fourth-color: #5d698f;
+    --fifth-color: 	#455d7f;
+
+    --text-color:#444;
+    --text-color-light:#777;
+    --border-color-dark:#AAA;
+    --border-color-light:#CCC;
+    --hover-color-dark: #5d698f;
+    --disable-color:#f0efef;
+    --alert-color: #ec7f6c;
+    /* other */
+    --facebook-color:#385898;
+    --orange-color:#ee4d2d;
+    --yellow-color:#ffce3e;
+    --yellow-color-light:#ffd452;
+    --black-color:#000;
+    --white-color:#FFF;
+}
+
+@font-face{
+    font-family: 'Dosis';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Dosis/Dosis-VariableFont_wght.ttf') format('truetype');
+}
+
+html{
+    font-family: 'Dosis' !important;
+    padding: 0;
+}
+.content{
+    margin: 0 auto;
+    padding-top: 100px;
+    width: 900px;
+    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 1s; /* Firefox < 16 */
+        -ms-animation: fadein 1s; /* Internet Explorer */
+         -o-animation: fadein 1s; /* Opera < 12.1 */
+            animation: fadein 1s;
+}
+#wrapper{
+    width: 100%;
+    display: flex;
+    color: var(--white-color);
+    font-size: 20px;
+    background-color: var(--primary-color);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 0;
+}
+.wrapper__left{
+    padding: 20px;
+    flex: 2;
+    border-right: 3px solid var(--border-color-light);
+} 
+.wrapper__right{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+form{
+    margin: 0 auto;
+    width:100%;
+    max-width: 400px;
+}
+
+input[type=text],input[type=password],input[type=submit]{
+    padding: 10px;
+    height: 42px;
+    margin-top: 10px;
+    width: 100%;
+    background-color: var(--white-color);
+    border-radius: 5px;
+    border: none;
+    font-family: 'Dosis';
+    font-size: 18px;
+    font-weight: 500;
+}
+input:hover{
+    background-color: rgba(255, 255, 255, 0.822);
+}
+input:focus{
+    outline-color: var(--fourth-color);
+    background-color: var(--white-color);
+}
+input[type=submit]{
+    width: 100%;
+    cursor: pointer;
+    background-color: var(--fourth-color);
+    color: white;
+    border: none;
+}
+
+input[type=radio]{
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+#header{
+    width: 100%;
+    background-color: var(--fifth-color);
+    font-size: 40px;
+    text-align: center;
+    color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.header__title{
+    margin: 0 auto;
+    text-align: center;
+    font-size: 30px;
+    color: var(--white-color);
+}
+
+#error{
+    margin-top: 10px;
+    text-align: center;
+    padding: 0.5em;
+    background-color: #ee8674;
+    color: white;
+    display: none;
+}
+.logoBox{
+    padding: 10px;
+    color:var(--white-color);
+    font-size: 40px;
+    text-align: center;
+}
+.myform__switch{
+    display:block;
+    font-size: 18px;
+    color: var(--white-color);
+    text-align: center;
+}
+
+/* Background animation */
+.backgroundBox{
+    position: relative;
+}
+body{
+    background-color:rgba(255, 212, 82, 0.36);
+}
+.circle{
+    z-index: -1;
+    position: absolute;
+    border-radius: 50%;
+    background:var(--third-color);
+    animation: ripple 10s infinite;
+    box-shadow: 0px 0px 1px 0px var(--fourth-color);
+}
+
+.small{
+    width: 200px;
+    height: 200px;
+    /* left: -100px;
+    top: -100px; */
+    left: 0;
+    bottom:-100px;
+}
+
+.medium{
+    width: 400px;
+    height: 400px;
+    left: -100px;
+    bottom: -200px;
+}
+
+.large{
+    width: 600px;
+    height: 600px;
+    left: -200px;
+    bottom: -300px;
+}
+
+.xlarge{
+    width: 800px;
+    height: 800px;
+    left: -300px;
+    bottom: -400px;
+}
+
+.xxlarge{
+    width: 1000px;
+    height: 1000px;
+    left: -400px;
+    bottom: -500px;
+}
+
+.shade1{
+    opacity: 0.2;
+}
+.shade2{
+    opacity: 0.5;
+}
+
+.shade3{
+    opacity: 0.7;
+}
+
+.shade4{
+    opacity: 0.8;
+}
+
+.shade5{
+    opacity: 0.9;
+}
+
+@keyframes ripple{
+    0%{
+        transform: scale(0.5);
+    }
+    25%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.5);
+    }
+    75%{
+        transform: scale(1);
+    }
+    100%{
+        transform: scale(0.5);
+    }
+}
+/*Animation*/
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

@@ -15,7 +15,6 @@ Phần backend: view tới đâu tui làm tới đó, bạn nào biết rồi th
 
 - view : html css
 
-
 Mấy bạn xem video dưới đây nha, có thắc mắc gì mình call.  
 
 Bạn nào muốn tìm hiểu kĩ về cái này thì đây là link.
