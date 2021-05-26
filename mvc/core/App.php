@@ -1,8 +1,8 @@
 <?php
 class App{
 
-    protected $controller="Authen";
-    protected $action="Login";
+    protected $controller="Login";
+    protected $action="Hello";
     protected $params=[];
 
     function __construct(){
@@ -18,7 +18,6 @@ class App{
         }
         require_once "./mvc/controllers/". $this->controller .".php";
         $this->controller = new $this->controller;
-
         // Action
         if(isset($arr[1])){
             if( method_exists($this->controller , $arr[1]) ){
@@ -26,10 +25,9 @@ class App{
             }
             unset($arr[1]);
         }
-
         // Params
         $this->params = $arr?array_values($arr):[];
-        call_user_func_array(array($this->controller, $this->action), $this->params);
+        call_user_func_array([$this->controller, $this->action], $this->params);
     }
 
     function UrlProcess(){

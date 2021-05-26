@@ -1,12 +1,5 @@
 <?php
     class User extends DB{
-        public function getUserName($email){
-            $qr = "SELECT name FROM user where email = '$email'";
-            $rows = mysqli_query($this->con, $qr);
-            if ($row = $rows->fetch_assoc()) 
-               return $row['name'];
-            return 'Cannot find name';
-        }
         public function checkValidUser($email, $pass = false ){
             $qr = "SELECT * FROM user where email = '$email'";
             $result = false;
@@ -20,7 +13,13 @@
                 if ($rows->fetch_assoc() > 0) $result = true;
             }
             return $result;
-            
+        }
+        public function getUserName($email){
+            $qr = "SELECT name FROM user where email = '$email'";
+            $rows = mysqli_query($this->con, $qr);
+            if ($row = $rows->fetch_assoc()) 
+               return $row['name'];
+            return 'Cannot find name';
         }
         public function insertNewUser($name, $email, $password){
             //check valid user

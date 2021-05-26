@@ -1,8 +1,12 @@
 <html>
 <head>
-	<title>Login</title>
-    <link rel="stylesheet" href="public/css/authen.css"> -->
-	<link rel="stylesheet" href="./assets/fontawesome/css/all.css">
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Đăng nhập</title>
+	<base href="http://localhost/CChat/"/>
+	<link rel="stylesheet" href="public/fontawesome/css/all.css">
+    <link rel="stylesheet" href="public/css/authen.css">
 </head>
 <body>
 	<div class="backgroundBox">
@@ -15,110 +19,36 @@
 		</div>
 	</div>
 	<div class="content">
-		<div id="header">
+		<h2 class="header">
 			CChat chào bạn 
-		</div>
-		<div id="wrapper">
+		</h2>
+		<div class="wrapper">
 			<div class="wrapper__left">
-				<h3 class="header__title">Đăng nhập</h3>
-				<form id="myform">
-					<input type="text" name="email" placeholder="Email của bạn">
-					<input type="password" name="password" placeholder="Mật khẩu của bạn">
-					<input type="submit" value="Login" id="login_button" >
+				<h3 class="wrapper__title">Đăng nhập</h3>
+				<form id="login-form" name="login-form" accept-charset="UTF-8">
+					<input id="login-email" type="email" name="login-email" placeholder="Email của bạn">
+					<input id="login-pass" type="password" name="login-pass" placeholder="Mật khẩu của bạn">
+					<input id="login-btn" type="submit" name="login-btn" value="Login">
 				</form>
-				<div id="error" style="">Error</div>
+				<p id="error-form"></p>
 			</div>
 			<div class="wrapper__right">
 				<div class="logoBox">
 					<i class="far fa-paper-plane"></i>
-					<div class="logoBox__slogan">
+					<h5 class="logoBox__slogan">
 						Kết nối mọi người
-					</div>
+					</h5>
 				</div>
-				<a class="myform__switch" href="signup.php" >
-					Chưa có tài khoản ? Đăng ký tại đây
+				<span>Chưa có tài khoản ?</span>
+				<a class="myform__switch" href="./Register" >
+					Đăng ký tại đây
 				</a>
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="public/js/jquery-3.1.1.js"></script>
+	<script type="text/javascript" src="public/js/jquery.validate.js"></script>>
+	<script type="text/javascript" src="public/js/authen.js"></script>
 </body>
 </html>
-
-<script type="text/javascript">
-	//Ham de nhan element bang id
-	function _(element){
-
-		return document.getElementById(element);
-	}
-
-   	var login_button = _("login_button");
-   	login_button.addEventListener("click",collect_data);
-	//Ham lay du lieu
-   	function collect_data(e){
-
-   		e.preventDefault();
-   		login_button.disabled = true;
-   		login_button.value = "Loading...Please wait..";
-
-   		var myform = _("myform");
-   		var inputs = myform.getElementsByTagName("INPUT");
-
-   		var data = {};
-		//Nhan tuan tu du lieu
-   		for (var i = inputs.length - 1; i >= 0; i--) {
-
-   			var key = inputs[i].name;
-
-   			switch(key){
- 
-   				case "email":
-   					data.email = inputs[i].value;
-   					break;
- 
-   				case "password":
-   					data.password = inputs[i].value;
-   					break;
- 
-   			}
-   		}
-
-   		send_data(data,"login");
-
-   	}
-
-   	function send_data(data,type){
-		// Tạo một request gửi dữ liệu lên server
-   		var xml = new XMLHttpRequest();
-
-   		xml.onload = function(){
-
-   			if(xml.readyState == 4 || xml.status == 200){
-				// Khi thành công
-   				handle_result(xml.responseText);
-   				login_button.disabled = false;
-   				login_button.value = "Login";
-   			}
-   		}
-
-		data.data_type = type;
-		var data_string = JSON.stringify(data);
-		//Gui JSON den server
-		xml.open("POST","api.php",true);
-		xml.send(data_string);
-   	}
-
-   	function handle_result(result){
-
-   		var data = JSON.parse(result);
-   		if(data.data_type == "info"){
-   			window.location = "index.php";
-   		}
-		else{
-   			var error = _("error");
-   			error.innerHTML = data.message;
-   			error.style.display = "block";
-   		}
-   	}
-
-</script>
 

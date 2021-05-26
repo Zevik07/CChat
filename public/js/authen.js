@@ -1,75 +1,100 @@
-
-//Ham de nhan element bang id
-function _(element){
-
-    return document.getElementById(element);
-}
-
-var login_button = _("login_button");
-login_button.addEventListener("click",collect_data);
-//Ham lay du lieu
-function collect_data(e){
-
-    e.preventDefault();
-    login_button.disabled = true;
-    login_button.value = "Loading...Please wait..";
-
-    var myform = _("myform");
-    var inputs = myform.getElementsByTagName("INPUT");
-
-    var data = {};
-    //Nhan tuan tu du lieu
-    for (var i = inputs.length - 1; i >= 0; i--) {
-
-        var key = inputs[i].name;
-
-        switch(key){
-
-            case "email":
-                data.email = inputs[i].value;
-                break;
-
-            case "password":
-                data.password = inputs[i].value;
-                break;
-
+$(document).ready(function(){
+    $("#login-form").validate({
+		rules: {
+            "login-email" : {
+                email: true,
+                required: true,
+                maxlength: 100
+            },
+			"login-pass": {
+				required: true,
+				maxlength:64
+			}
+		},
+		messages: {
+            "login-email" : {
+                email: 'Email của bạn chưa đúng định dạng',
+                required: 'Vui lòng nhập email'
+            },
+			"login-pass": {
+				required: 'Vui lòng nhập mật khẩu'
+			}
+		},
+        submitHandler: function(form) {
+            $.ajax({
+                type:"POST",
+                url: './Login/Auth',
+                data:  $(form).serialize(),
+                dataType: "JSON",
+                success:function(feedback){
+                    if (feedback.status == 'success')
+                    {
+                        window.location = './Home';
+                    }
+                    else{
+                        $('#error-form').removeClass('shake error-form').html('');
+                        setTimeout(function(){ 
+                            $('#error-form').addClass('shake error-form').html(feedback.message);
+                        }, 10);
+                    }
+                },
+                error: function(feedback) {
+                    alert('Lỗi gửi dữ liệu lên server');
+                 }
+            });
         }
-    }
-
-    send_data(data,"login");
-
-}
-
-function send_data(data,type){
-    // Tạo một request gửi dữ liệu lên server
-    var xml = new XMLHttpRequest();
-
-    xml.onload = function(){
-
-        if(xml.readyState == 4 || xml.status == 200){
-            // Khi thành công
-            handle_result(xml.responseText);
-            login_button.disabled = false;
-            login_button.value = "Login";
+    })
+    $("#register-form").validate({
+		rules: {
+            "register-email" : {
+                email: true,
+                required: true,
+                maxlength: 100
+            },
+			"register-pass": {
+				required: true,
+                minlength:6,
+				maxlength:64
+			},
+            "register-repass": {
+				equalTo: "#register-pass",
+			}
+		},
+		messages: {
+            "register-email" : {
+                email: 'Email của bạn chưa đúng định dạng',
+                required: 'Vui lòng nhập email'
+            },
+			"register-pass": {
+				required: 'Vui lòng nhập mật khẩu',
+                minlength: 'Mật khẩu ít nhất 6 kí tự'
+			},
+            "register-repass": {
+				equalTo: 'Mật khẩu nhập lại chưa đúng'
+			}
+		},
+        submitHandler: function(form) {
+            $.ajax({
+                type:"POST",
+                url: './Register/Auth',
+                data:  $(form).serialize(),
+                dataType: "JSON",
+                success:function(feedback){
+                    if (feedback.status == 'success')
+                    {
+                        window.location = './Home';
+                    }
+                    else{
+                        $('#error-form').removeClass('shake error-form').html('');
+                        setTimeout(function(){ 
+                            $('#error-form').addClass('shake error-form').html(feedback.message);
+                        }, 10);
+                    }
+                },
+                error: function(feedback) {
+                    alert('Lỗi gửi dữ liệu lên server');
+                 }
+            });
         }
-    }
-
-    data.data_type = type;
-    var data_string = JSON.stringify(data);
-    //Gui JSON den server
-    xml.open("POST","api.php",true);
-    xml.send(data_string);
-}
-
-function handle_result(result){
-
-    var data = JSON.parse(result);
-    if(data.data_type == "info"){
-        window.location = "index.php";
-    }
-    else{
-        var error = _("error");
-        error.innerHTML = data.message;
-        error.style.display = "block";
-    }
-}
+    })
+})
