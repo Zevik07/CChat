@@ -29,7 +29,7 @@ $(document).ready(function(){
                 success:function(feedback){
                     if (feedback.status == 'success')
                     {
-                        window.location = './Home';
+                        window.location = './';
                     }
                     else{
                         $('#error-form').removeClass('shake error-form').html('');
@@ -82,7 +82,7 @@ $(document).ready(function(){
                 success:function(feedback){
                     if (feedback.status == 'success')
                     {
-                        window.location = './Home';
+                        window.location = './';
                     }
                     else{
                         $('#error-form').removeClass('shake error-form').html('');

@@ -46,7 +46,7 @@
 					</h5>
 				</div>
 				<span>Đã có tài khoản ?</span>
-				<a class="myform__switch" href="./Login" >
+				<a class="myform__switch" href="./Login/Hello" >
 					Đăng nhập tại đây
 				</a>
 			</div>

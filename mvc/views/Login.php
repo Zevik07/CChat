@@ -40,7 +40,7 @@
 					</h5>
 				</div>
 				<span>Chưa có tài khoản ?</span>
-				<a class="myform__switch" href="./Register" >
+				<a class="myform__switch" href="./Register/Hello" >
 					Đăng ký tại đây
 				</a>
 			</div>

@@ -5,9 +5,10 @@ class Login extends Controller{
         $this->userModel = $this->model("User");
     }
     public function Hello(){
-        if (isset($_SESSION['userid'])){
-            header('Location: ./Home');
-            return;
+        if (isset($_SESSION['userId']) || isset($_SESSION['userEmail']))
+        {
+            header('Location: ./Home/Friend');
+            die();
         }
         $this->view('Login',[
 
@@ -18,6 +19,7 @@ class Login extends Controller{
         {
             $checkValid = $this->userModel->checkValidUser($_POST['login-email'],$_POST['login-pass']);
             if ($checkValid){
+                $_SESSION['userEmail'] = $_POST['login-email'];
                 echo json_encode(["status" => "success", "message" => "Đăng kí thành công"]);
             }
             else {

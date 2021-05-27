@@ -20,7 +20,7 @@ class App{
         $this->controller = new $this->controller;
         // Action
         if(isset($arr[1])){
-            if( method_exists($this->controller , $arr[1]) ){
+            if(method_exists($this->controller , $arr[1]) ){
                 $this->action = $arr[1];
             }
             unset($arr[1]);
