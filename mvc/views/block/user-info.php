@@ -4,16 +4,7 @@
     {
         $decode = json_decode($data['User'], true);
     }
-    $value = $decode[0];
-    if (is_null($value['image'])){
-        if ($value['gender'] == 'Male')
-        {
-            $value['image'] = 'public/image/Male.jpg';
-        }
-        else{
-            $value['image'] = 'public/image/Female.jpg';
-        }
-    }
+    $value = $decode;
     //foreach($decode as $value)
     //{
 ?>
@@ -24,8 +15,8 @@
     <ul id="user-menu" class="user-menu" >
         <li id="user-menu__chat"> Chat <i class="far fa-comments"></i></li>
         <li id="user-menu__friend"> Friend <i class="far fa-address-card"></i></li>
-        <li id="user-menu__settings"> Settings <i class="fas fa-user-cog"></i></li>
-        <li id="user-menu__settings"> Logout <i class="fas fa-sign-out-alt"></i></li>
+        <li id="user-menu__setting"> Settings <i class="fas fa-user-cog"></i></li>
+        <li id="user-menu__logout"> Logout <i class="fas fa-sign-out-alt"></i></li>
     </ul>
 </div>
 <?php

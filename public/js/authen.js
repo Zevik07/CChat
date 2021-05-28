@@ -29,7 +29,7 @@ $(document).ready(function(){
                 success:function(feedback){
                     if (feedback.status == 'success')
                     {
-                        window.location = './';
+                        window.location = './Home/Chat';
                     }
                     else{
                         $('#error-form').removeClass('shake error-form').html('');

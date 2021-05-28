@@ -25,12 +25,13 @@
             //generate id
             $rows= mysqli_query($this->con,"SELECT max(userId) as MaxId from user");
             $row = $rows->fetch_assoc();
-            $newId =$row['MaxId']+1;
+            $newId = $row['MaxId']+1;
+            $imgDefault = $gender == 'Male' ? 'public/image/male.jpg' : 'public/image/female.jpg';
             //set time
             date_default_timezone_set("Asia/Bangkok");
             $datetime = date('Y-m-d H:i:s');
             //insert
-            $qr = "INSERT INTO user (userId,userName,email,gender,password,date) VALUES ('$newId','User name','$email','$gender','$password','$datetime')";
+            $qr = "INSERT INTO user (userId,userName,email,gender,password,date,image) VALUES ('$newId','User name','$email','$gender','$password','$datetime','$imgDefault')";
             $result = false;
             if (mysqli_query($this->con, $qr)){
                 $result = true;
@@ -43,7 +44,7 @@
             $data = array();
             if ($row = mysqli_fetch_array($rows))
             {
-                $data[] = $row;
+                $data = $row;
             }
             //Gui mang cung duoc nhung gui Json sau nay nen tang khac lay du lieu ok hon
             return json_encode($data);

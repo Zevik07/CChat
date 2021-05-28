@@ -5,9 +5,9 @@ class Login extends Controller{
         $this->userModel = $this->model("User");
     }
     public function Hello(){
-        if (isset($_SESSION['userId']) || isset($_SESSION['userEmail']))
+        if (isset($_SESSION['userEmail']))
         {
-            header('Location: ./Home/Friend');
+            header('Location: http://localhost/CChat/Home/Chat');
             die();
         }
         $this->view('Login',[
@@ -16,7 +16,7 @@ class Login extends Controller{
     }
     public function Auth(){
         if (isset($_POST["login-btn"]))
-        {
+        {  
             $checkValid = $this->userModel->checkValidUser($_POST['login-email'],$_POST['login-pass']);
             if ($checkValid){
                 $_SESSION['userEmail'] = $_POST['login-email'];
@@ -26,6 +26,13 @@ class Login extends Controller{
                 echo json_encode(["status" => "error", "message" => "Tài khoản hoặc mật khẩu không đúng"]);
             }
         }
+    }
+    public function Logout(){
+        unset($_SESSION['userEmail']);
+        session_destroy();
+        header('Location: http://localhost/CChat/');
+        die();
+    
     }
 }
 ?>

@@ -5,9 +5,9 @@ class Register extends Controller{
         $this->userModel = $this->model("User");
     }
     public function Hello(){
-        if (isset($_SESSION['userId']) || isset($_SESSION['userEmail']))
+        if (isset($_SESSION['userEmail']))
         {
-            header('Location: ./Home/Friend');
+            header('Location: http://localhost/CChat/Home/Chat');
             die();
         }
         $this->view('Register',[
