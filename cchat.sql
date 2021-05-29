@@ -2,10 +2,10 @@
 -- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 28, 2021 lúc 02:34 PM
--- Phiên bản máy phục vụ: 10.4.17-MariaDB
--- Phiên bản PHP: 8.0.0
+-- Host: 127.0.0.1
+-- Generation Time: May 29, 2021 at 09:22 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,17 +18,17 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `cchat`
+-- Database: `cchat`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `group`
+-- Table structure for table `group`
 --
 
 CREATE TABLE `group` (
-  `groupId` varchar(50) NOT NULL,
+  `groupId` varchar(200) NOT NULL,
   `name` varchar(200) NOT NULL,
   `date` datetime NOT NULL,
   `member` text NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE `group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `group`
+-- Dumping data for table `group`
 --
 
 INSERT INTO `group` (`groupId`, `name`, `date`, `member`, `image`, `userCreate`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `group` (`groupId`, `name`, `date`, `member`, `image`, `userCreate`)
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `message`
+-- Table structure for table `message`
 --
 
 CREATE TABLE `message` (
@@ -63,18 +63,29 @@ CREATE TABLE `message` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `message`
+-- Dumping data for table `message`
 --
 
 INSERT INTO `message` (`id`, `sender`, `receiver`, `message`, `files`, `date`, `seen`, `received`, `deleted_sender`, `deleted_receiver`) VALUES
+(0, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL),
 (1, 'phu@gmail.com', 'nhan@gmail.com', 'hello', '', '2021-05-20 16:03:04', 0, 0, 1, 0),
-(2, 'nhan@gmail.com', 'phu@gmail.com', 'how are u', NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 'phu@gmail.com', 'nhan@gmail.com', 'good', NULL, NULL, NULL, NULL, NULL, NULL);
+(2, 'nhan@gmail.com', 'phu@gmail.com', 'how are u', NULL, '2021-05-20 16:05:04', NULL, NULL, NULL, NULL),
+(3, 'phu@gmail.com', 'nhan@gmail.com', 'phu', NULL, '2021-05-20 16:07:01', NULL, NULL, NULL, NULL),
+(4, 'phu@gmail.com', 'nhan@gmail.com', 'quy', NULL, '2021-05-20 16:08:01', NULL, NULL, NULL, NULL),
+(5, 'phu@gmail.com', 'nhan@gmail.com', 'bo', NULL, '2021-05-20 16:08:01', NULL, NULL, NULL, NULL),
+(6, 'phu@gmail.com', 'nhan@gmail.com', 'vien', NULL, '2021-05-20 16:09:01', NULL, NULL, NULL, NULL),
+(7, 'phu@gmail.com', 'nhan@gmail.com', 'hop', NULL, '2021-05-20 16:10:01', NULL, NULL, NULL, NULL),
+(8, 'phu@gmail.com', 'nhan@gmail.com', 'lai', NULL, '2021-05-20 16:11:01', NULL, NULL, NULL, NULL),
+(9, 'phu@gmail.com', 'nhan@gmail.com', 'last Msg', NULL, '2021-05-20 16:11:01', NULL, NULL, NULL, NULL),
+(10, 'phu@gmail.com', 'nhan@gmail.com', 'last Msg1', NULL, '2021-05-20 16:11:01', NULL, NULL, NULL, NULL),
+(11, 'nhan@gmail.com', 'phu@gmail.com', 'l1', NULL, '2021-05-20 16:11:01', NULL, NULL, NULL, NULL),
+(12, 'nhan@gmail.com', 'phu@gmail.com', '123', NULL, '2021-05-20 16:11:01', NULL, NULL, NULL, NULL),
+(13, 'phu@gmail.com', 'nhan@gmail.com', 'nvhvn', NULL, '2021-05-29 14:19:31', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -90,33 +101,32 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`userId`, `userName`, `email`, `gender`, `password`, `date`, `image`, `friend`, `request`) VALUES
-(1, 'Phu', 'phu@gmail.com', 'Male', 'password', '2020-12-25 15:31:32', 'public/image/2.jpg', 'nhan@gmail.com,trung@gmail.com', NULL),
-(2, 'Nhan', 'nhan@gmail.com', 'Female', 'password', '2020-12-25 15:31:49', 'public/image/2.jpg', 'phu@gmail.com,phu@gmail.com', NULL),
-(3, 'Trung', 'trung@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/2.jpg', 'phu@gmail.com,nhan@gmail.com', NULL),
-(4, 'Phu', 'monnatyz@gmail.com', 'Male', '123123', '2021-05-27 10:51:15', 'public/image/2.jpg', NULL, NULL);
+(1, 'Phu', 'phu@gmail.com', 'Male', 'password', '2020-12-25 15:31:32', 'public/image/phu.jpg', 'nhan@gmail.com,trung@gmail.com', NULL),
+(2, 'Nhan', 'nhan@gmail.com', 'Female', 'password', '2020-12-25 15:31:49', 'public/image/nhan.jpg', 'phu@gmail.com,phu@gmail.com', NULL),
+(3, 'Trung', 'trung@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/trung.jpg', 'phu@gmail.com,nhan@gmail.com', NULL);
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `group`
+-- Indexes for table `group`
 --
 ALTER TABLE `group`
   ADD PRIMARY KEY (`groupId`);
 
 --
--- Chỉ mục cho bảng `message`
+-- Indexes for table `message`
 --
 ALTER TABLE `message`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`userId`),
