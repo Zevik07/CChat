@@ -47,7 +47,7 @@
 		</div>
 	</div>
 	<script type="text/javascript" src="public/js/jquery-3.1.1.js"></script>
-	<script type="text/javascript" src="public/js/jquery.validate.js"></script>>
+	<script type="text/javascript" src="public/js/jquery.validate.js"></script>
 	<script type="text/javascript" src="public/js/authen.js"></script>
 </body>
 </html>

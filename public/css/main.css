@@ -189,7 +189,7 @@ p{
     text-align: center;
 }
 .message-img{
-    object-fit: contain;
+    object-fit: cover;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -346,7 +346,7 @@ p{
 .friend-img{
     width: 100%;
     height: 160px;
-    object-fit: contain;
+    object-fit: cover;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
