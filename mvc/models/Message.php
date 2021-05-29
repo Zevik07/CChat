@@ -17,20 +17,23 @@ class Message extends DB{
         //Gui mang cung duoc nhung gui Json sau nay nen tang khac lay du lieu ok hon
         return json_encode($data);
     }
-    public function getMessageCurrent($email, $currentMsg){
+    public function getMessageCurrent($friend, $currentMsg){
         $user = $_SESSION['userEmail'];
-        $friend = $email;
+        $currentMsg = (int) $currentMsg;
+
         $qr = "SELECT id,sender,receiver,message,files,message.date,seen,received,deleted_sender,deleted_receiver,userName,image 
-        FROM message, user WHERE (sender = email) AND 
-        (sender = '$user' && receiver = '$friend' || receiver = '$user' && sender = '$friend') AND
+        FROM message, user WHERE (sender = '$friend' AND receiver = '$user') AND 
+        sender = email AND  
         id >  $currentMsg
         ORDER BY id";
-        $rows = mysqli_query($this->con, $qr);
-        $data = array();
 
-        while ($row = mysqli_fetch_array($rows))
-        {
-            $data[] = $row;
+        $data = array();
+        $rows = mysqli_query($this->con, $qr);
+        if ($rows){
+            while ($row = mysqli_fetch_array($rows))
+            {
+                $data[] = $row;
+            }
         }
         //Gui mang cung duoc nhung gui Json sau nay nen tang khac lay du lieu ok hon
         return json_encode($data);

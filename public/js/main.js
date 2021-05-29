@@ -90,10 +90,11 @@ function refeshChat(){
         $.ajax({
             type:"POST",
             url: './Home/getMessageCurrent',
-            data: {'friendEmail':EmailCurrentFriend, 'currentMessage': lastMsgId},
+            data: {'friendEmail': EmailCurrentFriend, 'lastMessage': lastMsgId},
             dataType: "JSON",
             success:function(feedback){
                 if (feedback == undefined || feedback == null || feedback.length == 0){
+                    //alert(lastMsgId);
                     return;
                 }
                 $.each(feedback, function(i, item) {
@@ -112,18 +113,20 @@ function refeshChat(){
                         $('#message-holder').append(msg); 
                         $('#message-holder').children().last().addClass('message-left');
                     }
-                    else {
-                        $('#message-holder').append(msg); 
-                        $('#message-holder').children().last().addClass('message-right');
-                    }
-                    
+                    // else {
+                    //     $('#message-holder').append(msg); 
+                    //     $('#message-holder').children().last().addClass('message-right');
+                    // }
+
+                    //Cập nhật tin nhắn cuối
+                    lastMsgId = parseInt(item.id);
                 });
             },
             error: function(feedback) {
                
              }
         });
-    },1000)
+    },5000)
     
 }
 
@@ -140,7 +143,6 @@ $("#message-form").validate({
     },
     submitHandler: function(form) {
         MsgText = $('#message-input').val();
-        alert(MsgText);
         $.ajax({
             type:"POST",
             url: './Home/sendMessage',
@@ -149,7 +151,7 @@ $("#message-form").validate({
             success:function(feedback){
                 if (feedback.status == 'success')
                 {
-                    lastMsgId += 1;
+                    lastMsgId = parseInt(lastMsgId) + 1;
                     let msg = '<div id="'+lastMsgId+'" class="message">'+
                                     '<div class="message-info">'+
                                         '<img class="message-img" src="empty" alt="">'+

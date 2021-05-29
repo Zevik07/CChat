@@ -33,7 +33,7 @@ class Home extends Controller{
         echo $messageList;
     }
     public function getMessageCurrent(){
-        $messageList = $this->model('Message')->getMessageCurrent($_POST['friendEmail'],$_POST['currentMessage']);
+        $messageList = $this->model('Message')->getMessageCurrent($_POST['friendEmail'],$_POST['lastMessage']);
         echo $messageList;
     }
     public function sendMessage(){
