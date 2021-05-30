@@ -5,12 +5,19 @@ $(document).ready(
         function showChat(){
             $('#inner-left').css('display','block');
             $('#friend-holder').addClass('friend-holder--column');
+
+            $('#friend-holder').addClass('friend-holder--column');
+            $('#friend-holder').find('.request-denie').css('display','none');
+
             $('#friend-manager').css('display','none');
             $('#friend-request').css('display','none');
         }
         function showFriend(){
             $('#inner-left').css('display','none');
+
             $('#friend-holder').removeClass('friend-holder--column');
+            $('#friend-holder').find('.request-denie').css('display','block');
+
             $('#friend-manager').css('display','flex');
             $('#friend-request').css('display','block');
         }
@@ -54,8 +61,9 @@ $(document).ready(
                     success:function(feedback){
                         if (feedback == undefined || feedback == null || feedback.length == 0){
                             //Nếu không có tin nhắn
-                            $('#message-holder').html('Nhắn gì đó với '+EmailCurrentFriend);
+                            $('#message-holder').html('<p class="message-holder-status">Nhắn gì đó với '+EmailCurrentFriend+'</p>');
                             showChat();
+                            refeshChat();
                             return;
                         }
                         //Nếu có tin nhắn
@@ -143,6 +151,8 @@ $(document).ready(
             function(e) {
                 e.preventDefault();
                 MsgText = $('#message-input').val();
+                //Xóa status "Nhắn gì đó với "
+                $('.message-holder-status').remove();   
                 $.ajax({
                     type:"POST",
                     url: './Home/sendMessage',
@@ -166,6 +176,7 @@ $(document).ready(
                                     $('#message-holder').append(msg); 
                                     $('#message-holder').children().last().addClass('message-right');
                                     $('#message-holder').animate({ scrollTop: $('#message-holder').prop("scrollHeight")}, 1000);
+                                    $('#message-input').val('');
                         }
                         else{
                             alert(feedback.message);
@@ -191,14 +202,127 @@ $(document).ready(
                     url: './Home/addFriend',
                     data: {'emailRequest': emailRequest},
                     dataType: "JSON",
-                    success:function(friend){
-                        let friendProfile = '<div id="'+friend.email+'" class="friend-profile">'+
-                                '<img class="friend-img" src="'+friend.image+'" alt="Avatar">'+
-                                '<h5 class="friend-name">'+friend.userName+'</h5>'+
-                                '<p class="friend-email">'+friend.email+'</p>'+
-                            '</div>';
-                        $('#friend-holder').append(friendProfile); 
-                        alert(emailRequest);
+                    success:function(){
+                        // let friendProfile = '<div id="'+friend.email+'" class="friend-profile">'+
+                        //         '<img class="friend-img" src="'+friend.image+'" alt="Avatar">'+
+                        //         '<h5 class="friend-name">'+friend.userName+'</h5>'+
+                        //         '<p class="friend-email">'+friend.email+'</p>'+
+                        //     '</div>';
+                        // //Xoa request truoc
+                        // $(`#${emailRequest}`).remove();
+                        // //Thêm vào khung bạn
+                        // $('#friend-holder').append(friendProfile); 
+                        location.reload();
+                    },
+                    error: function(friend) {
+                        alert('Lỗi gửi dữ liệu lên server');
+                    }
+                });
+            }
+        )
+        //Hủy kết bạn hoặc hủy yêu cầu kết bạn
+        $('.request-denie').click(
+            function(){
+                //Lấy id user đã chọn
+                emailRequest = $(this).parent().parent().attr('id');
+                //Phân biệt xem hủy bạn hay hủy yêu cầu
+                classParent = $(this).parent().parent().attr('class');
+                type = 'friend';
+                if (classParent != 'friend-profile')
+                {
+                    type = 'request';
+                }
+                //Gửi yêu cầu chấp nhận kết bạn
+                $.ajax({
+                    type:"POST",
+                    url: './Home/removeFriendRequest',
+                    data: {'emailRequest': emailRequest, 'type': type},
+                    dataType: "JSON",
+                    success:function(){
+                        location.reload();
+                        if (feedback.status == 'error'){
+                            alert(feedback.message);
+                            return;
+                        }
+                        else{
+                            window.location = window.location;
+                        }
+                        
+                    },
+                    error: function(friend) {
+                        alert('Lỗi gửi dữ liệu lên server');
+                    }
+                });
+            }
+        )
+
+
+        //Gửi lời mời kết bạn
+        $('#requestFriendBtn').click(
+            function(e){
+                e.preventDefault();
+                //Lấy id user đã chọn
+                requestEmail= $('#requestFriendEmail').val();
+                if (requestEmail == ''){
+                    alert('Vui lòng nhập email cần kết bạn !');
+                    return;
+                }
+                
+                //Gửi yêu cầu chấp nhận kết bạn
+                $.ajax({
+                    type:"POST",
+                    url: './Home/sendRequest',
+                    data: {'emailRequest': requestEmail},
+                    dataType: "JSON",
+                    success:function(feedback){
+                        // let friendProfile = '<div id="'+friend.email+'" class="friend-profile">'+
+                        //         '<img class="friend-img" src="'+friend.image+'" alt="Avatar">'+
+                        //         '<h5 class="friend-name">'+friend.userName+'</h5>'+
+                        //         '<p class="friend-email">'+friend.email+'</p>'+
+                        //     '</div>';
+                        // //Xoa request truoc
+                        // $(`#${emailRequest}`).remove();
+                        // //Thêm vào khung bạn
+                        // $('#friend-holder').append(friendProfile); 
+                        if (feedback.status == 'error'){
+                            alert(feedback.message);
+                        }
+                        else{
+                            alert('Gửi lời mời thành công !');
+                        }
+                    },
+                    error: function(friend) {
+                        alert('Lỗi gửi dữ liệu lên server');
+                    }
+                });
+            }
+        )
+
+
+        //Tạo nhóm
+        $('#groupdBtn').click(
+            function(e){
+                e.preventDefault();
+                //Lấy id user đã chọn
+                groupName = $('#groupName').val();
+                if (groupName.match(".*\\d.*") || groupName == ''){
+                    alert('Tên không được chứa số hoặc để trống');
+                    return;
+                }
+                //Gửi yêu cầu chấp nhận kết bạn
+                $.ajax({
+                    type:"POST",
+                    url: './Home/createGroup',
+                    data: {'groupName': groupName},
+                    dataType: "JSON",
+                    success:function(feedback){
+                        if (feedback.status == 'error'){
+                            alert(feedback.message);
+                        }
+                        else{
+                            alert('Đã thêm nhóm thành công !');
+                            window.location = window.location;
+                        }
                     },
                     error: function(friend) {
                         alert('Lỗi gửi dữ liệu lên server');

@@ -1,9 +1,9 @@
 <div id="inner-left" style ="display:none">
     <div id="message-tab" >
         <div id="message-holder" class="message-holder" currentFriendChat="">
-            <p class="messag-holder-title">
+            <p class="message-holder-title">
                 Chọn ai đó để trò chuyện
-            </p> 
+            </p>
         </div>
         <div class="message-control">
             <i class="message-control__image fas fa-images"></i>
@@ -31,22 +31,43 @@
                     <p class="friend-email">
                         <?php echo $value['email'];?>
                     </p>
+                    <div class="request-control">
+                        <span href="#" id="request-denie" class="request-denie"><i class="fas fa-window-close"></i></span>
+                    </div>
                 </div>
             <?php
                     }    
                 }
             ?>
+
+            <?php
+                //if (isset($data['Group'])){
+                    $decodeGroup = json_decode($data['Group'],true);
+                    foreach ($decodeGroup as $value){
+            ?>
+                <div id="<?php echo $value['groupId'];?>" class="group-profile">
+                    <img class="friend-img" src="<?php echo $value['image'];?>" alt="Avatar">
+                    <h5 class="friend-name"><?php echo $value['name'];?></h5>
+                    <div class="request-control">
+                        <span href="#" id="request-denie" class="request-denie"><i class="fas fa-window-close"></i></span>
+                    </div>
+                </div>
+            <?php
+                   // }    
+                }
+            ?>
+
         </div>
         <div id="friend-manager" class="friend-manager">
-            <div class="friend-add">
-                <input type="text" placeholder="Kết bạn với người bạn biết">
-                <input type="button" value = "Gửi lời mời">
-            </div>
+            <form class="friend-add">
+                <input id="requestFriendEmail" type="text" placeholder="Nhập email người bạn muốn kết bạn">
+                <input id="requestFriendBtn" type="submit" value = "Gửi lời mời">
+            </form>
             <i class="fas fa-users"></i> 
-            <div class="group-add">
-                <input type="text" placeholder="Nhập tên nhóm cần tạo">
-                <input type="button" value = "Tạo">
-            </div>
+            <form class="group-add">
+                <input id="groupName" type="text" placeholder="Nhập tên nhóm cần tạo">
+                <input id="groupBtn" type="button" value = "Tạo">
+            </form>
         </div>
     </div>
     <div id="friend-request" class="friend-request" >

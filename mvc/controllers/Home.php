@@ -17,19 +17,9 @@ class Home extends Controller{
             'User'=>$this->userModel->getUserInfor($_SESSION['userEmail']),
             'Friend'=>$this->friendModel->getFriendInfor($_SESSION['userEmail']),
             'Request'=>$this->requestModel->getRequestInfor($_SESSION['userEmail']),
-            'Group'=>$this->groupModel->getGroupInfor()
+            'Group'=>$this->groupModel->getGroupInfor($_SESSION['userEmail'])
         ]);
     }
-    // public function Friend(){
-    //     $this->view('Master',[
-    //         'Page'=>"Friend",
-    //         'User'=>$this->userModel->getUserInfor($_SESSION['userEmail']),
-    //         'Friend'=>$this->friendModel->getFriendInfor($_SESSION['userEmail']),
-    //         'Group'=>$this->groupModel->getGroupInfor()
-    //     ]);
-    // }
-
-
     //return json msg
     public function getMessage(){
         $messageList = $this->model('Message')->getMessage($_POST['friendEmail']);
@@ -66,6 +56,29 @@ class Home extends Controller{
         }
         $friendInfor = $this->friendModel->addFriend($_POST['emailRequest']);
         echo $friendInfor;
+    }
+    public function removeFriendRequest(){
+        if ($_POST['emailRequest'] == '')
+        {
+            echo json_encode(['status'=>'error',"message"=>"Không tồn tại email"]);
+        }
+        $result = $this->friendModel->removeFriendRequest($_POST['emailRequest'],$_POST['type']);
+        echo $result;
+    }
+
+    public function sendRequest(){
+        $result = $this->requestModel->sendRequest($_POST['emailRequest']);
+        echo $result;
+    }
+    public function createGroup(){
+        $result =$this->groupModel->createGroup($_POST['groupName']);
+        if ($result)
+        {
+            echo json_encode(['status'=>'success','Đã thêm nhóm thành công']);
+        }
+        else{
+            echo json_encode(['status'=>'error','Thêm nhóm thất bại !']);
+        }
     }
 }
 ?>
