@@ -43,6 +43,47 @@ body{
 p{
     margin: 0;
 }
+a{
+    color:var(--third-color);
+}
+a:hover{
+    color: var(--fourth-color)
+}
+input, button{
+    margin-left: 5px;
+    background-color: var(--white-color);
+    color: var(--text-color-light);
+    border-radius: 4px;
+    border: none;
+    font-family: 'Dosis';
+    font-size: 2rem;
+}
+input:hover, button:hover{
+    background-color: rgba(255, 255, 255, 0.822);
+}
+input[type="text"]{
+    padding: 10px;
+}
+input[type="submit"],input[type="button"]{
+	font-size: 2.2rem;
+	text-align: center;
+	color: var(--white-color);
+    cursor: pointer;
+    max-width: 100px; 
+    width: 110px; 
+    outline: 3px solid;
+    outline-color: rgba(96, 132, 202, 0.5);
+    outline-offset: 0px;
+    transition: all 400ms cubic-bezier(0.2, 0, 0, 0.8);
+    border: none;
+    background-color: var(--fifth-color);
+}
+
+input[type="submit"]:hover ,input[type="button"]:hover{
+    outline-color: rgba(71, 126, 232, 0);
+    outline-offset: 10px;
+    transform: scale(1.05);
+}
 .container{
     margin:10px
 }
@@ -131,6 +172,7 @@ p{
 }
 #inner-container{
     display: flex;
+    height: 600px;
 }
 
 #inner-left{
@@ -139,17 +181,20 @@ p{
 
 #inner-right{
     flex: 1;
-    transition: all 0.5s ease;
+    display: flex;
 }
 
 
 /* Message */
 #message-tab{
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    height: 100%;
 }
 .message-holder{
+    flex: 1;
     width: 100%;
-    height: 700px;
     overflow-y: scroll;
 }
 #message-holder::-webkit-scrollbar-track
@@ -291,35 +336,20 @@ p{
 #message-input:focus{
     background-color: var(--white-color);
 }
-#message-submit {
-    margin-left: 5px;
-	font-size: 2.2rem;
-	text-align: center;
-	color: var(--white-color);
-    cursor: pointer;
-    max-width: 100px; 
-    width: 110px; 
-    outline: 3px solid;
-    outline-color: rgba(96, 132, 202, 0.5);
-    outline-offset: 0px;
-    transition: all 400ms cubic-bezier(0.2, 0, 0, 0.8);
-    border: none;
-    background-color: var(--fifth-color);
-}
-
-#message-submit:hover {
-    outline-color: rgba(71, 126, 232, 0);
-    outline-offset: 10px;
-    transform: scale(1.05);
-}
 
 
 /* friend tab */
+.friend-box{
+    flex:4;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 .friend-holder{
+    flex:1;
     padding: 10px;
-    height: 765px;
     font-size: 2rem;
-    color: var(--text-color);
     overflow-y: scroll;
 }
 .friend-holder--column{
@@ -332,6 +362,7 @@ p{
     margin: 10px;
     width: 160px;
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     align-items: center;
     background-color: var(--white-color);
@@ -339,6 +370,8 @@ p{
     box-shadow: 2px 2px 3px 1px var(--hover-color-dark);
     cursor: pointer;
     border: 1px solid var(--border-color-dark);
+    color: var(--text-color);
+    
 }
 .friend-profile:hover{
     transform: scale(1.05);
@@ -354,9 +387,56 @@ p{
     margin: 0px;
 }
 .friend-email{
-    font-size: 1.7rem;
+    padding: 4px;
+    font-size: 1.5rem;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-#friend-holderr::-webkit-scrollbar-track
+/* Them xoa ban */
+.friend-manager{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 65px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.group-add, .friend-add{
+    flex:1;
+    display: flex;
+    height: 100%;
+}
+.friend-manager input[type="text"]{
+    flex: 1;
+}
+.friend-manager i{
+    font-size: 3rem;
+    margin: 0 20px;
+}
+/*Lời mời kết bạn*/
+.friend-request{
+    flex:1;
+    height: 100%;
+}
+.request-profile{
+    float: left;
+    margin: 10px;
+    width: 125px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--white-color);
+    border-radius: 10px;
+    box-shadow: 2px 2px 3px 1px var(--hover-color-dark);
+    border: 1px solid var(--border-color-dark);
+    color: var(--text-color);
+}
+.request-profile .friend-img{
+    height: 130px;
+}
+#friend-holder::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: #F5F5F5;
@@ -368,7 +448,24 @@ p{
 	background-color: #F5F5F5;
 }
 
-#friend-holder::-webkit-scrollbar-thumb
+#friend-request::-webkit-scrollbar-thumb
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: var(--second-color);
+}
+#friend-request::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#friend-request::-webkit-scrollbar
+{
+	width: 14px;
+	background-color: #F5F5F5;
+}
+
+#friend-request::-webkit-scrollbar-thumb
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: var(--second-color);

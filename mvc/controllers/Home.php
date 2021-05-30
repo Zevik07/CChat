@@ -3,17 +3,20 @@ class Home extends Controller{
     protected $userModel;
     protected $groupModel;
     protected $friendModel;
+    protected $requestModel;
     function __construct()
     {
         $this->userModel = $this->model('User');
         $this->groupModel = $this->model('Group');
         $this->friendModel = $this->model('Friend');
+        $this->requestModel = $this->model('Request');
     }
     public function Chat(){
         $this->view('Master',[
             'Page'=>"Home",
             'User'=>$this->userModel->getUserInfor($_SESSION['userEmail']),
             'Friend'=>$this->friendModel->getFriendInfor($_SESSION['userEmail']),
+            'Request'=>$this->requestModel->getRequestInfor($_SESSION['userEmail']),
             'Group'=>$this->groupModel->getGroupInfor()
         ]);
     }
@@ -38,11 +41,11 @@ class Home extends Controller{
     }
     public function sendMessage(){
         if (trim($_POST['MsgText']) == ''){
-            json_encode(['status'=>'error', 'message'=>'Bạn chưa nhận nội dung tin nhắn']);
+            echo json_encode(['status'=>'error', 'message'=>'Bạn chưa nhận nội dung tin nhắn']);
             return;
         }
         if ($_POST['friendEmail'] == ''){
-            json_encode(['status'=>'error', 'message'=>'Hãy chọn bạn để chat']);
+            echo json_encode(['status'=>'error', 'message'=>'Hãy chọn bạn để chat']);
             return;
         }
         $result = $this->model('Message')->sendMessage($_POST['friendEmail'],$_POST['MsgText']);
@@ -55,6 +58,14 @@ class Home extends Controller{
         else {
             echo json_encode(['status'=>'error', 'message'=>'Không thể thêm vào CSDL']);
         }
+    }
+    public function addFriend(){
+        if ($_POST['emailRequest'] == ''){
+            echo json_encode(['status'=>'error', 'message'=>'Chưa nhận được email']);
+            return;
+        }
+        $friendInfor = $this->friendModel->addFriend($_POST['emailRequest']);
+        echo $friendInfor;
     }
 }
 ?>

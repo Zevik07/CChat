@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CChat</title>
     <!-- Import Boostrap css, js, font awesome here -->
-    <base href="http://localhost/CChat/"/>
+    <base href="http://<?php echo $_SERVER['HTTP_HOST']?>/CChat/"/>
 	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.css" rel="stylesheet" type="text/css" />-->
@@ -36,6 +36,7 @@
                     ?>
                 </div>
             </div>
+
         </div>
     </div>
     <script type="text/javascript" src="public/js/jquery-3.1.1.js"></script>

@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Đăng nhập</title>
-	<base href="http://localhost/CChat/"/>
+	<base href="http://<?php echo $_SERVER['HTTP_HOST']?>/CChat/"/>
 	<link rel="stylesheet" href="public/fontawesome/css/all.css">
     <link rel="stylesheet" href="public/css/authen.css">
 </head>

@@ -7,7 +7,7 @@ class Register extends Controller{
     public function Hello(){
         if (isset($_SESSION['userEmail']))
         {
-            header('Location: http://localhost/CChat/Home/Chat');
+            header('Location: http://'.$_SERVER['HTTP_HOST'].'/CChat/Home/Chat');
             die();
         }
         $this->view('Register',[

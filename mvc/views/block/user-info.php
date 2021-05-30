@@ -14,9 +14,9 @@
     <span id="user-email" class="user-email"><?php echo $value['email'];?></span>
     <ul id="user-menu" class="user-menu" >
         <li id="user-menu__chat"> Chat <i class="far fa-comments"></i></li>
-        <li id="user-menu__friend"> Friend <i class="far fa-address-card"></i></li>
-        <li id="user-menu__setting"> Settings <i class="fas fa-user-cog"></i></li>
-        <li id="user-menu__logout"> Logout <i class="fas fa-sign-out-alt"></i></li>
+        <li id="user-menu__friend"> Bạn bè và nhóm <i class="far fa-address-card"></i></li>
+        <li id="user-menu__setting"> Cài đặt <i class="fas fa-user-cog"></i></li>
+        <li id="user-menu__logout"> Đăng xuất <i class="fas fa-sign-out-alt"></i></li>
     </ul>
 </div>
 <?php
