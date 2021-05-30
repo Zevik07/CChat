@@ -1,5 +1,5 @@
 <?php
-    class Friend extends DB{
+    class Friend extends DB{    
         public function getFriendInfor($email){
             $qr = "SELECT * FROM user where email = '$email'";
             $rows = mysqli_query($this->con, $qr);

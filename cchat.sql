@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2021 at 08:55 AM
+-- Generation Time: May 30, 2021 at 04:04 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -41,7 +41,7 @@ CREATE TABLE `group` (
 --
 
 INSERT INTO `group` (`groupId`, `name`, `date`, `member`, `image`, `userCreate`) VALUES
-('group1', 'NLXDPM', '2021-05-27 10:52:46', 'phu@gmail.com, nhan@gmail.com, trung@gmail.com', NULL, 'phu@gmail.com');
+('group1', 'NLXDPM', '2021-05-27 10:52:46', 'phu@gmail.com,nhan@gmail.com,trung@gmail.com', NULL, 'phu@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -71,23 +71,11 @@ INSERT INTO `message` (`id`, `sender`, `receiver`, `message`, `files`, `date`, `
 (2, 'nhan@gmail.com', 'phu@gmail.com', 'how are u', NULL, '2021-05-20 16:05:04', NULL, NULL, NULL, NULL),
 (3, 'phu@gmail.com', 'nhan@gmail.com', 'phu', NULL, '2021-05-20 16:07:01', NULL, NULL, NULL, NULL),
 (4, 'phu@gmail.com', 'nhan@gmail.com', 'quy', NULL, '2021-05-20 16:08:01', NULL, NULL, NULL, NULL),
-(5, 'phu@gmail.com', 'nhan@gmail.com', 'bo', NULL, '2021-05-20 16:08:01', NULL, NULL, NULL, NULL),
-(6, 'phu@gmail.com', 'nhan@gmail.com', 'e', NULL, '2021-05-29 20:02:27', NULL, NULL, NULL, NULL),
-(7, 'phu@gmail.com', 'nhan@gmail.com', 'k', NULL, '2021-05-29 20:02:35', NULL, NULL, NULL, NULL),
-(8, 'phu@gmail.com', 'nhan@gmail.com', 'em', NULL, '2021-05-29 20:04:39', NULL, NULL, NULL, NULL),
-(9, 'phu@gmail.com', 'nhan@gmail.com', 'sdf', NULL, '2021-05-29 20:08:38', NULL, NULL, NULL, NULL),
-(10, 'phu@gmail.com', 'nhan@gmail.com', 'hello', NULL, '2021-05-29 20:09:11', NULL, NULL, NULL, NULL),
-(11, 'phu@gmail.com', 'nhan@gmail.com', 'chao bạn', NULL, '2021-05-29 20:11:07', NULL, NULL, NULL, NULL),
-(12, 'phu@gmail.com', 'nhan@gmail.com', 'sdf', NULL, '2021-05-29 20:11:36', NULL, NULL, NULL, NULL),
-(13, 'phu@gmail.com', 'nhan@gmail.com', 'hello', NULL, '2021-05-29 20:12:16', NULL, NULL, NULL, NULL),
-(14, 'phu@gmail.com', 'nhan@gmail.com', 'hello', NULL, '2021-05-29 20:12:29', NULL, NULL, NULL, NULL),
-(15, 'phu@gmail.com', 'nhan@gmail.com', 'chao', NULL, '2021-05-29 20:14:10', NULL, NULL, NULL, NULL),
-(16, 'phu@gmail.com', 'nhan@gmail.com', 'ngu', NULL, '2021-05-29 20:14:14', NULL, NULL, NULL, NULL),
-(17, 'phu@gmail.com', 'nhan@gmail.com', 'dmm', NULL, '2021-05-29 20:14:20', NULL, NULL, NULL, NULL),
-(18, 'phu@gmail.com', 'nhan@gmail.com', 'ngu', NULL, '2021-05-29 20:14:52', NULL, NULL, NULL, NULL),
-(19, 'phu@gmail.com', 'nhan@gmail.com', 'dfsdfsdf', NULL, '2021-05-29 21:23:20', NULL, NULL, NULL, NULL),
-(20, 'phu@gmail.com', 'trung@gmail.com', 'Hello trung', NULL, '2021-05-30 00:01:42', NULL, NULL, NULL, NULL),
-(21, 'phu@gmail.com', 'loc@gmail.com', 'Hello loc', NULL, '2021-05-30 00:03:38', NULL, NULL, NULL, NULL);
+(5, 'phu@gmail.com', 'trung@gmail.com', 'chao ban', NULL, '2021-05-30 14:50:10', NULL, NULL, NULL, NULL),
+(6, 'phu@gmail.com', 'loc@gmail.com', 'e', NULL, '2021-05-30 14:55:55', NULL, NULL, NULL, NULL),
+(7, 'phu@gmail.com', 'khang@gmail.com', 'chao Khang', NULL, '2021-05-30 15:33:01', NULL, NULL, NULL, NULL),
+(8, 'phu@gmail.com', 'trung@gmail.com', 'chao trung', NULL, '2021-05-30 15:33:57', NULL, NULL, NULL, NULL),
+(9, 'phu@gmail.com', 'trung@gmail.com', 'ôi bạn ơi', NULL, '2021-05-30 16:12:07', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -112,10 +100,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userId`, `userName`, `email`, `gender`, `password`, `date`, `image`, `friend`, `request`) VALUES
-(1, 'Phu', 'phu@gmail.com', 'Male', 'password', '2020-12-25 15:31:32', 'public/image/phu.jpg', 'trung@gmail.com,loc@gmail.com', ''),
+(1, 'Phu', 'phu@gmail.com', 'Male', 'password', '2020-12-25 15:31:32', 'public/image/phu.jpg', 'nhan@gmail.com,trung@gmail.com', 'loc@gmail.com,khang@gmail.com'),
 (2, 'Nhan', 'nhan@gmail.com', 'Female', 'password', '2020-12-25 15:31:49', 'public/image/nhan.jpg', 'phu@gmail.com,trung@gmail.com', 'khang@gmail.com,loc@gmail.com'),
-(3, 'Trung', 'trung@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/trung.jpg', 'phu@gmail.com,nhan@gmail.com', 'loc@gmail.com,khang@gmail.com'),
-(4, 'Loc', 'loc@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/loc.jpg', 'khang@gmail.com', NULL),
+(3, 'Trung', 'trung@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/trung.jpg', 'nhan@gmail.com,phu@gmail.com', 'khang@gmail.com,loc@gmail.com'),
+(4, 'Loc', 'loc@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/loc.jpg', 'khang@gmail.com', ''),
 (5, 'Khang', 'khang@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/khang.jpg', 'loc@gmail.com', '');
 
 --
