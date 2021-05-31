@@ -3,24 +3,60 @@ class Message extends DB{
     public function getMessage($email){
         $user = $_SESSION['userEmail'];
         $friend = $email;
-        $qr = "SELECT id,sender,receiver,message,files,message.date,seen,received,deleted_sender,deleted_receiver,userName,image 
-        FROM message, user WHERE (sender = email) AND 
-        (sender = '$user' && receiver = '$friend' || receiver = '$user' && sender = '$friend')
-        ORDER BY id";
-        $rows = mysqli_query($this->con, $qr);
-        $data = array();
 
-        while ($row = mysqli_fetch_array($rows))
-        {
-            $data[] = $row;
+        //Kiểm tra xem đang cần lấy tin nhắn của nhóm hay cá nhân
+        if(strpos($friend,'group') >= 0 && strpos($friend,'@') == false){
+
+            $qr = "SELECT groupId,groupName,groupDate,groupMember,groupImage,sender,id,message,message.date,userName,image FROM cchat.group, cchat.message,cchat.user 
+            where receiver = groupId and sender = email and receiver='$friend'
+            ORDER BY id";
+            $rows = mysqli_query($this->con, $qr);
+            $data = array();
+
+            if ($rows){
+                while ($row = mysqli_fetch_array($rows))
+                {
+                    $data[] = $row;
+                }
+            }
+            //Gui mang cung duoc nhung gui Json sau nay nen tang khac lay du lieu ok hon
+            return json_encode($data);
         }
-        //Gui mang cung duoc nhung gui Json sau nay nen tang khac lay du lieu ok hon
-        return json_encode($data);
+        else{
+            $qr = "SELECT id,sender,receiver,message,files,message.date,seen,received,deleted_sender,deleted_receiver,userName,image,msgDeleted
+            FROM message, user WHERE (sender = email) AND 
+            (sender = '$user' && receiver = '$friend' || receiver = '$user' && sender = '$friend')
+            ORDER BY id";
+            $rows = mysqli_query($this->con, $qr);
+            $data = array();
+
+            while ($row = mysqli_fetch_array($rows))
+            {
+                $data[] = $row;
+            }
+            //Gui mang cung duoc nhung gui Json sau nay nen tang khac lay du lieu ok hon
+            return json_encode($data);
+        }
     }
     public function getMessageCurrent($friend, $currentMsg){
         $user = $_SESSION['userEmail'];
-        $currentMsg = (int) $currentMsg;
+        if(strpos($friend,'group') >= 0 && strpos($friend,'@') == false){
+            $qr = "SELECT groupId,groupName,groupDate,groupMember,groupImage,sender,id,message,message.date,userName,image FROM cchat.group, cchat.message,cchat.user 
+            where receiver = groupId and sender = email and receiver='$friend' and id > $currentMsg
+            ORDER BY id";
+            $rows = mysqli_query($this->con, $qr);
+            $data = array();
 
+            if ($rows){
+                while ($row = mysqli_fetch_array($rows))
+                {
+                    $data[] = $row;
+                }
+            }
+            //Gui mang cung duoc nhung gui Json sau nay nen tang khac lay du lieu ok hon
+            return json_encode($data);
+        }
+        $currentMsg = (int) $currentMsg;
         $qr = "SELECT id,sender,receiver,message,files,message.date,seen,received,deleted_sender,deleted_receiver,userName,image 
         FROM message, user WHERE (sender = '$friend' AND receiver = '$user') AND 
         sender = email AND  
@@ -55,6 +91,18 @@ class Message extends DB{
             $result = true;
         }
         return ($result);
+    }
+    public function deleteMessage($msgid){
+        $data = ['status'=>'error','message'=>'Không thể thêm vào CSDL'];
+        $qr = "UPDATE cchat.message
+            SET msgDeleted = 1
+            WHERE id = $msgid";
+        $rows = mysqli_query($this->con, $qr);
+        if ($rows)
+        {
+            $data = ['status'=>'success','message'=>'Xóa nhóm thành công'];
+        }
+        return json_encode($data) ;
     }
 }
 ?>

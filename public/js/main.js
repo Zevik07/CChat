@@ -6,8 +6,8 @@ $(document).ready(
             $('#inner-left').css('display','block');
             $('#friend-holder').addClass('friend-holder--column');
 
-            $('#friend-holder').addClass('friend-holder--column');
-            $('#friend-holder').find('.request-denie').css('display','none');
+            
+            //$('#friend-holder').find('.request-denie').css('display','none');
 
             $('#friend-manager').css('display','none');
             $('#friend-request').css('display','none');
@@ -16,7 +16,7 @@ $(document).ready(
             $('#inner-left').css('display','none');
 
             $('#friend-holder').removeClass('friend-holder--column');
-            $('#friend-holder').find('.request-denie').css('display','block');
+            //$('#friend-holder').find('.request-denie').css('display','block');
 
             $('#friend-manager').css('display','flex');
             $('#friend-request').css('display','block');
@@ -39,19 +39,37 @@ $(document).ready(
         )
 
         //Biến lưu thông tin user
-        userEmail = $('#user-email').val();
-        userName = $('#user-email').val();
+        userEmail = $('#user-email').text();
+        userName = $('#user-name').text();
         // Biến lưu bạn đang chat hiện tại và id tin nhắn cuối cùng
         EmailCurrentFriend = '';
         lastMsgId = 0;
-        /*Sự kiện khi click vào bất kì liên hệ nào*/
-        $('.friend-profile').click(
-            function(){
+        nameCurrentChat = '';
+        /*Sự kiện khi click vào bất kì bạn hoặc nhóm nào*/
+        $('.friend-profile').on('click',
+            function(e){
                 //Lấy id user đã chọn
+                dateCreate = $(this).attr('datecreate');
+                member = $(this).attr('member');
                 EmailCurrentFriend = this.id;
+                nameCurrentChat = $(this).children('.friend-name').text();
                 //Đánh dấu lại user đang chat
                 $('#message-holder').html('');
                 $('#message-holder').attr("currentFriendChat", EmailCurrentFriend);
+                //Hiện bar thông tin
+                $('#infoBox').css('display','flex');
+                $('#infoBox .info-name').html(nameCurrentChat);
+                $('#infoBox .info-group').css('display','none');
+                $('#infoBox .info-manager').css('display','none');
+                
+                        //Nếu là nhóm
+                        if (!EmailCurrentFriend.match(/@/))
+                        {
+                            $('#infoBox .info-manager').css('display','block');
+                            $('#infoBox .info-group').css('display','flex');
+                            $('#infoBox .info-group .info-date').html('Ngày tạo: '+dateCreate);
+                            $('#infoBox .info-group .info-member').html('Thành viên: '+ member);
+                        }
                 //Nhận tin nhắn
                 $.ajax({
                     type:"POST",
@@ -61,34 +79,52 @@ $(document).ready(
                     success:function(feedback){
                         if (feedback == undefined || feedback == null || feedback.length == 0){
                             //Nếu không có tin nhắn
-                            $('#message-holder').html('<p class="message-holder-status">Nhắn gì đó với '+EmailCurrentFriend+'</p>');
+                                //Nếu là nhóm 
+                                $('#message-holder').html(
+                                        '<div id="message-holder-status">'+
+                                            '<h3>Hãy nhắn gì đó với '+nameCurrentChat+'</h3>' +
+                                            '<img src="public/image/status.gif" alt="">' +
+                                        '</div>');
+                            
                             showChat();
                             refeshChat();
                             return;
                         }
                         //Nếu có tin nhắn
                         $.each(feedback, function(i, item) {
+                            optionClass='';
+                            if (item.msgDeleted == 1){
+                                optionClass = 'message-deleted';
+                                item.message = '---Tin nhắn này đã được xóa---';
+                            }
                             let msg = '<div id="'+item.id+'" class="message">'+
                                             '<div class="message-info">'+
                                                 '<img class="message-img" src="'+item.image+'" alt="">'+
                                                 '<p class="message-user-name">'+ item.userName +'</p>'+
                                             '</div>'+
                                             '<div class="message-content">'+
-                                                '<p class="message-text">'+ item.message + '</p>'+
+                                                '<p class="'+optionClass+' message-text">'+ item.message + '</p>'+
                                                 '<p class="message-time">'+item.date+'</p>'+
                                                 '<i class="fas fa-trash-alt message-delete"></i>'+
                                             '</div>'+
                                         '</div>';
-                            if (item.sender == EmailCurrentFriend){
+                            
+                            if (item.sender == userEmail){
                                 $('#message-holder').append(msg); 
-                                $('#message-holder').children().last().addClass('message-left');
+                                $('#message-holder').children().last().addClass('message-right');
+                                
                             }
                             else {
                                 $('#message-holder').append(msg); 
-                                $('#message-holder').children().last().addClass('message-right');
+                                $('#message-holder').children().last().addClass('message-left');
+                                
                             }
                             
+                            
                         });
+                        setTimeout(function(){
+                            $("#message-holder").animate({ scrollTop: $("#message-holder")[0].scrollHeight}, 1000)
+                          }, 100);
                         //Cập nhật lại tin nhắn cuối cùng
                         lastMsgId = $('#message-holder').children().last().attr('id');
                         showChat();
@@ -98,6 +134,7 @@ $(document).ready(
                         alert('Lỗi gửi dữ liệu lên server');
                     }
                 });
+                
             }
         )
 
@@ -115,7 +152,7 @@ $(document).ready(
                             return;
                         }
                         $.each(feedback, function(i, item) {
-                            let msg = '<div id="'+item.id+'" class="message">'+
+                            let msg = '<div userSend="'+item.sender+'" id="'+item.id+'" class="message">'+
                                             '<div class="message-info">'+
                                                 '<img class="message-img" src="'+item.image+'" alt="">'+
                                                 '<p class="message-user-name">'+ item.userName +'</p>'+
@@ -126,18 +163,21 @@ $(document).ready(
                                                 '<i class="fas fa-trash-alt message-delete"></i>'+
                                             '</div>'+
                                         '</div>';
-                            if (item.sender == EmailCurrentFriend){
+                            if (item.sender != userEmail)
+                            {
                                 $('#message-holder').append(msg); 
                                 $('#message-holder').children().last().addClass('message-left');
+                                $("#message-holder").animate({ scrollTop: $("#message-holder")[0].scrollHeight}, 1000);
                             }
                             // else {
                             //     $('#message-holder').append(msg); 
                             //     $('#message-holder').children().last().addClass('message-right');
                             // }
-
+                            //$('#message-holder').animate({ scrollTop: $('#message-holder').prop("scrollHeight")}, 1000);
                             //Cập nhật tin nhắn cuối
                             lastMsgId = parseInt(item.id);
                         });
+                        
                     },
                     error: function(feedback) {
                     
@@ -146,13 +186,13 @@ $(document).ready(
             },2000)
             
         }
-        //send mesg
+        //send message
         $("#message-form").submit(
             function(e) {
                 e.preventDefault();
                 MsgText = $('#message-input').val();
                 //Xóa status "Nhắn gì đó với "
-                $('.message-holder-status').remove();   
+                $('#message-holder-status').remove();   
                 $.ajax({
                     type:"POST",
                     url: './Home/sendMessage',
@@ -173,9 +213,10 @@ $(document).ready(
                                                 '<i class="fas fa-trash-alt message-delete"></i>'+
                                             '</div>'+
                                         '</div>';
+
                                     $('#message-holder').append(msg); 
                                     $('#message-holder').children().last().addClass('message-right');
-                                    $('#message-holder').animate({ scrollTop: $('#message-holder').prop("scrollHeight")}, 1000);
+                                    $("#message-holder").animate({ scrollTop: $("#message-holder")[0].scrollHeight}, 1000);
                                     $('#message-input').val('');
                         }
                         else{
@@ -220,10 +261,11 @@ $(document).ready(
                 });
             }
         )
-        //Hủy kết bạn hoặc hủy yêu cầu kết bạn
+        //Hủy kết bạn hoặc hủy yêu cầu kết bạn hoặc xóa nhóm
         $('.request-denie').click(
-            function(){
-                //Lấy id user đã chọn
+            function(e){
+                e.stopPropagation();
+                //Lấy id user hoặc nhóm đã chọn
                 emailRequest = $(this).parent().parent().attr('id');
                 //Phân biệt xem hủy bạn hay hủy yêu cầu
                 classParent = $(this).parent().parent().attr('class');
@@ -232,14 +274,28 @@ $(document).ready(
                 {
                     type = 'request';
                 }
+                //Nếu là xóa nhóm
+                if (!emailRequest.match(/@/))
+                {
+                    type = 'group';
+                    alertTxt = confirm('Bạn sẽ rời nhóm nhưng các thành viên còn lại vẫn hoạt động, bạn chắc chứ ?')
+                    if (alertTxt == false){
+                        return;
+                    }
+                }
+                if (type == 'friend'){
+                    alertTxt = confirm('Bạn muốn hủy kết bạn với người này chứ ?')
+                    if (alertTxt == false){
+                        return;
+                    }
+                }
                 //Gửi yêu cầu chấp nhận kết bạn
                 $.ajax({
                     type:"POST",
                     url: './Home/removeFriendRequest',
                     data: {'emailRequest': emailRequest, 'type': type},
                     dataType: "JSON",
-                    success:function(){
-                        location.reload();
+                    success:function(feedback){
                         if (feedback.status == 'error'){
                             alert(feedback.message);
                             return;
@@ -258,7 +314,7 @@ $(document).ready(
 
 
         //Gửi lời mời kết bạn
-        $('#requestFriendBtn').click(
+        $('#requestFriendBtn').on('click',
             function(e){
                 e.preventDefault();
                 //Lấy id user đã chọn
@@ -300,16 +356,16 @@ $(document).ready(
 
 
         //Tạo nhóm
-        $('#groupdBtn').click(
+        $('#groupBtn').click(
             function(e){
                 e.preventDefault();
-                //Lấy id user đã chọn
+                //Lấy id group đã chọn
                 groupName = $('#groupName').val();
-                if (groupName.match(".*\\d.*") || groupName == ''){
-                    alert('Tên không được chứa số hoặc để trống');
+                if (groupName.match(/^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/) || groupName == ''){
+                    alert('Tên không được chứa ký tự đặc biệt hoặc để trống');
                     return;
                 }
-                //Gửi yêu cầu chấp nhận kết bạn
+                //Gửi yêu cầu tạo
                 $.ajax({
                     type:"POST",
                     url: './Home/createGroup',
@@ -324,11 +380,99 @@ $(document).ready(
                             window.location = window.location;
                         }
                     },
-                    error: function(friend) {
+                    error: function() {
                         alert('Lỗi gửi dữ liệu lên server');
                     }
                 });
             }
         )
+
+
+        //Thêm thành viên vào nhóm
+        $('#info-manager').on("click",
+            function(e){
+                if ($(this).text() == 'Xong'){
+                    $(this).text('Thêm thành viên');
+                    //Hiện tích thêm vào
+                    $('#friend-holder [type="friend"] .add-member').remove();
+                    return;
+                }
+                $(this).text('Xong');
+                //Hiện tích thêm vào
+                $('#friend-holder [type="friend"]').append(
+                    '<span href="#" class="add-member"><i class="fas fa-user-plus"></i></span>'    
+                );
+                //Khi click vào nút thêm
+                $('.add-member').click(
+                    function(e){
+                        e.stopPropagation();
+                        //Lấy id của người được thêm
+                        idFriend = $(this).parent().attr("id");
+                        member =  $('#info-member').text();
+                        index = $('#info-member').text().indexOf(idFriend);
+                        //Nếu member đã tồn tại
+                        if(index>=0){
+                            alert('Người này đã ở trong nhóm');
+                        }
+                        else{
+                            $.ajax({
+                                type:"POST",
+                                url: './Home/addMember',
+                                data: {'groupId': EmailCurrentFriend, 'friendId': idFriend},
+                                dataType: "JSON",
+                                success:function(feedback){
+                                    if (feedback.status == 'error'){
+                                        alert(feedback.message);
+                                    }
+                                    else{
+                                        $('#info-member').text(member+','+idFriend);
+                                        $('#info-manager').text('Thêm thành viên');
+                                        //Hiện tích thêm vào
+                                        $('#friend-holder [type="friend"] .add-member').remove();
+                                    }
+                                },
+                                error: function() {
+                                    alert('Lỗi gửi dữ liệu lên server');
+                                }
+                            });
+                        }
+                    }
+                ) 
+            }
+        )
+
+
+        //Xoa tin nhan
+        $('#message-holder').delegate('.message .message-content .message-delete','click',
+            function deleteMessage(e){
+                let alertText = confirm('Bạn muốn xóa tin nhắn này chứ ?');
+               
+                msgId = $(this).parent().parent().attr('id');
+                if (alertText == false){
+                    return;
+                }
+                $.ajax({
+                    type:"POST",
+                    url: './Home/deleteMessage',
+                    data: {'msgId': msgId},
+                    dataType: "JSON",
+                    success:function(feedback){
+                        if (feedback.status == 'error'){
+                            alert(feedback.message);
+                        }
+                        else{
+                            $('#'+msgId+' .message-content .message-text').html('---Tin nhắn này đã được xóa---');
+                            $('#'+msgId+' .message-content .message-text').addClass('message-deleted');
+                        }
+                    },
+                    error: function() {
+                        alert('Lỗi gửi dữ liệu lên server');
+                    }
+                });
+            }
+        )
+
+
+        
     }
 )

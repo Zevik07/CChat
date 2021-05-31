@@ -163,6 +163,28 @@
                     $data = ['status'=>'success','message'=>'Xóa yêu cầu thành công'];
                 }
             }
+            if ($type == 'group'){
+                $qr = "SELECT * FROM cchat.group where groupId = '$email'";
+                $rows = mysqli_query($this->con, $qr);
+                //Loại bỏ email ra khỏi request
+                $memberList = array();
+                if ($row = mysqli_fetch_array($rows))
+                {
+                    $memberlList = explode(',',$row['groupMember']);
+                    $key = array_search($userEmail, $memberlList);
+                    unset($memberlList[$key]);
+                }
+                // Cập nhật lại request
+                $memberlString = implode(',',$memberlList);
+                $qr = "UPDATE cchat.group
+                SET groupMember = '$memberlString'
+                WHERE groupId = '$email'";
+                $rows = mysqli_query($this->con, $qr);
+                if ($rows)
+                {
+                    $data = ['status'=>'success','message'=>'Xóa nhóm thành công'];
+                }
+                }
             return json_encode($data);
         }
     }

@@ -80,5 +80,11 @@ class Home extends Controller{
             echo json_encode(['status'=>'error','Thêm nhóm thất bại !']);
         }
     }
+    public function addMember(){
+        echo $this->groupModel->addMember($_POST['groupId'],$_POST['friendId']);
+    }
+    public function deleteMessage(){
+        echo $this->model('Message')->deleteMessage($_POST['msgId']);
+    }
 }
 ?>
