@@ -30,24 +30,21 @@ class Home extends Controller{
         echo $messageList;
     }
     public function sendMessage(){
-        if (trim($_POST['MsgText']) == ''){
-            echo json_encode(['status'=>'error', 'message'=>'Bạn chưa nhận nội dung tin nhắn']);
-            return;
-        }
-        if ($_POST['friendEmail'] == ''){
-            echo json_encode(['status'=>'error', 'message'=>'Hãy chọn bạn để chat']);
-            return;
-        }
-        $result = $this->model('Message')->sendMessage($_POST['friendEmail'],$_POST['MsgText']);
-        if ($result)
+        //Nếu không phải post dữ liệu
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            date_default_timezone_set("Asia/Bangkok");
-            $datetime = date('Y-m-d H:i:s');
-            echo json_encode(['status'=>'success', 'date'=>$datetime]);
+            echo json_encode(['status'=>'error', 'message'=>'Phải sử dụng phương thức POST']);
+            return;
         }
-        else {
-            echo json_encode(['status'=>'error', 'message'=>'Không thể thêm vào CSDL']);
+
+        //Kiểm tra nếu người dùng chưa nhập tin nhắn hoặc ảnh
+        if (trim($_POST['message-input']) == '' && $_FILES['message-image']['name'] == '')
+        {
+            echo json_encode(['status'=>'error', 'message'=>'Bạn chưa nhập nội dung tin nhắn']);
+            return;
         }
+        $result = $this->model('Message')->sendMessage();
+        echo ($result);
     }
     public function addFriend(){
         if ($_POST['emailRequest'] == ''){
@@ -85,6 +82,9 @@ class Home extends Controller{
     }
     public function deleteMessage(){
         echo $this->model('Message')->deleteMessage($_POST['msgId']);
+    }
+    public function updateUser(){
+        echo $this->model('User')->updateUser();
     }
 }
 ?>

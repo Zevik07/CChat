@@ -5,23 +5,43 @@ $(document).ready(
         function showChat(){
             $('#inner-left').css('display','block');
             $('#friend-holder').addClass('friend-holder--column');
-
             
-            //$('#friend-holder').find('.request-denie').css('display','none');
-
+            $('#setting').css('display','none');
             $('#friend-manager').css('display','none');
             $('#friend-request').css('display','none');
+
+            //css các nút
+            $('#user-menu__chat').addClass('active');
+            $('#user-menu__friend').removeClass('active');
+            $('#user-menu__setting').removeClass('active');
         }
         function showFriend(){
-            $('#inner-left').css('display','none');
-
-            $('#friend-holder').removeClass('friend-holder--column');
-            //$('#friend-holder').find('.request-denie').css('display','block');
-
             $('#friend-manager').css('display','flex');
             $('#friend-request').css('display','block');
+            $('#inner-right').css('display','flex');
+
+            $('#inner-left').css('display','none');
+            $('#friend-holder').removeClass('friend-holder--column');
+            $('#setting').css('display','none');
+
+            
+            //css các nút
+            $('#user-menu__chat').removeClass('active');
+            $('#user-menu__friend').addClass('active');
+            $('#user-menu__setting').removeClass('active');
         }
-        //showFriend();
+        function showSetting(){
+            $('#inner-left').css('display','none');
+            $('#inner-right').css('display','none');
+            $('#setting').css('display','block');
+
+            
+            //css các nút
+            $('#user-menu__chat').removeClass('active');
+            $('#user-menu__friend').removeClass('active');
+            $('#user-menu__setting').addClass('active');
+            
+        }
         $('#user-menu__chat').click(
             function(){
                 showChat();
@@ -35,6 +55,11 @@ $(document).ready(
         $('#user-menu__logout').click(
             function(){
                 window.location="./Login/Logout"
+            }
+        )
+        $('#user-menu__setting').click(
+            function(){
+                showSetting();
             }
         )
 
@@ -93,10 +118,16 @@ $(document).ready(
                         //Nếu có tin nhắn
                         $.each(feedback, function(i, item) {
                             optionClass='';
+                            img = item.files != '' && item.files !=null ? '<img src="'+item.files+'" class="message-content-img">' : '';
                             if (item.msgDeleted == 1){
                                 optionClass = 'message-deleted';
                                 item.message = '---Tin nhắn này đã được xóa---';
+                                if (img != '')
+                                {
+                                    img = '<img src="public/image/delete-image.png" class="message-content-img message-content-img--delete">';
+                                }
                             }
+                            //Hình ảnh
                             let msg = '<div id="'+item.id+'" class="message">'+
                                             '<div class="message-info">'+
                                                 '<img class="message-img" src="'+item.image+'" alt="">'+
@@ -104,6 +135,7 @@ $(document).ready(
                                             '</div>'+
                                             '<div class="message-content">'+
                                                 '<p class="'+optionClass+' message-text">'+ item.message + '</p>'+
+                                                img+
                                                 '<p class="message-time">'+item.date+'</p>'+
                                                 '<i class="fas fa-trash-alt message-delete"></i>'+
                                             '</div>'+
@@ -152,6 +184,15 @@ $(document).ready(
                             return;
                         }
                         $.each(feedback, function(i, item) {
+                            let img =  item.files != '' && item.files !=null  ? '<img src="'+item.files+'" class="message-content-img">' : '';
+                            if (item.msgDeleted == 1){
+                                optionClass = 'message-deleted';
+                                item.message = '---Tin nhắn này đã được xóa---';
+                                if (img != '')
+                                {
+                                    img = '<img src="public/image/delete-image.png" class="message-content-img message-content-img--delete">';
+                                }
+                            }
                             let msg = '<div userSend="'+item.sender+'" id="'+item.id+'" class="message">'+
                                             '<div class="message-info">'+
                                                 '<img class="message-img" src="'+item.image+'" alt="">'+
@@ -159,6 +200,7 @@ $(document).ready(
                                             '</div>'+
                                             '<div class="message-content">'+
                                                 '<p class="message-text">'+ item.message + '</p>'+
+                                                img+
                                                 '<p class="message-time">'+item.date+'</p>'+
                                                 '<i class="fas fa-trash-alt message-delete"></i>'+
                                             '</div>'+
@@ -183,32 +225,55 @@ $(document).ready(
                     
                     }
                 });
-            },2000)
+            },1500)
             
         }
+
+        //Khi chọn hình ảnh
+
+        $("input[type=file]").on('change',function(){
+            $('#message-image-btn').addClass('choose-image');
+        });
         //send message
         $("#message-form").submit(
             function(e) {
                 e.preventDefault();
-                MsgText = $('#message-input').val();
+                //Kiểm tra xem có user đang chat hiện tại hay chưa
+                $('#message-image-btn').removeClass('choose-image');
+                if (EmailCurrentFriend=='')
+                {
+                    alert("Bạn chưa chọn ai để chat");
+                    return;
+                }
+                //Tạo form dữ liệu
+                let formData = new FormData(this);
+                formData.append( 'friendEmail', EmailCurrentFriend );
                 //Xóa status "Nhắn gì đó với "
-                $('#message-holder-status').remove();   
+                $('#message-holder-status').remove(); 
                 $.ajax({
                     type:"POST",
                     url: './Home/sendMessage',
                     dataType: "JSON", 
-                    data: {'friendEmail': EmailCurrentFriend, 'MsgText': MsgText},
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     success:function(feedback){
-                        if (feedback.status == 'success')
+                        if (feedback.status == 'error')
                         {
+                            alert(feedback.message);
+                        }
+                        else{
                             lastMsgId = parseInt(lastMsgId) + 1;
+                            let img = feedback.files != '' ? '<img src="'+feedback.files+'" class="message-content-img">' : '';
                             let msg = '<div id="'+lastMsgId+'" class="message">'+
                                             '<div class="message-info">'+
                                                 '<img class="message-img" src="empty" alt="">'+
                                                 '<p class="message-user-name">'+userName+'</p>'+
                                             '</div>'+
                                             '<div class="message-content">'+
-                                                '<p class="message-text">'+ MsgText + '</p>'+
+                                                '<p class="message-text">'+ feedback.message + '</p>'+
+                                                img+
                                                 '<p class="message-time">'+ feedback.date +'</p>'+
                                                 '<i class="fas fa-trash-alt message-delete"></i>'+
                                             '</div>'+
@@ -219,9 +284,7 @@ $(document).ready(
                                     $("#message-holder").animate({ scrollTop: $("#message-holder")[0].scrollHeight}, 1000);
                                     $('#message-input').val('');
                         }
-                        else{
-                            alert(feedback.message);
-                        }
+                        $('#message-form')[0].reset();
                     },
                     error: function(feedback) {
                         alert('Lỗi gửi dữ liệu lên server');
@@ -445,9 +508,12 @@ $(document).ready(
         //Xoa tin nhan
         $('#message-holder').delegate('.message .message-content .message-delete','click',
             function deleteMessage(e){
-                let alertText = confirm('Bạn muốn xóa tin nhắn này chứ ?');
-               
                 msgId = $(this).parent().parent().attr('id');
+                if ($('#'+msgId+ ' .message-content .message-text').hasClass('message-deleted')){
+                    alert('Bạn đã xóa tin nhắn này rồi !!!');
+                    return;
+                }
+                let alertText = confirm('Bạn muốn xóa tin nhắn này chứ ?');
                 if (alertText == false){
                     return;
                 }
@@ -462,6 +528,8 @@ $(document).ready(
                         }
                         else{
                             $('#'+msgId+' .message-content .message-text').html('---Tin nhắn này đã được xóa---');
+                            $('#'+msgId+' .message-content .message-content-img').attr("src","public/image/delete-image.png");
+                            $('#'+msgId+' .message-content .message-content-img').addClass("message-content-img--delete");
                             $('#'+msgId+' .message-content .message-text').addClass('message-deleted');
                         }
                     },
@@ -471,7 +539,48 @@ $(document).ready(
                 });
             }
         )
+        
+        $('#setting-form').submit(
+            function(e){
+                e.preventDefault();
+                msg = '';
+                userName = $('#setting-name').val();
+                if (userName.match(/^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/) || userName == ''){
+                    msg += '- Tên không được chứa số, ký tự đặc biệt hoặc để trống\n';
+                }
+                //Kiểm tra sự hợp lệ mật khẩu
+                pass = $('#setting-pass').val();
+                rePass = $('#setting-rePass ').val();
+                if (pass != '' && pass !== rePass){
+                    msg += '- Mật khẩu không khớp\n';
+                }
 
+                if(msg!= '')
+                {
+                    alert(msg);
+                    return;
+                }
+                let formData = new FormData(this);
+                $.ajax({
+                    type:"POST",
+                    url: './Home/updateUser',
+                    data: formData,
+                    dataType: "JSON",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success:function(feedback){
+                        alert(feedback.message)
+                        window.location = window.location;
+
+                        $('#setting-form')[0].reset();
+                    },
+                    error: function() {
+                        alert('Lỗi gửi dữ liệu lên server');
+                    }
+                });
+            }
+        )
 
         
     }
