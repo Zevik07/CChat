@@ -119,7 +119,8 @@
     <form id="setting-form" enctype="multipart/form-data">
         <h3 class="setting-title">Thông tin cá nhân</h3>
         <img class="setting-avatar" src="<?php echo $value['image'];?>" alt="Avatar">
-        <Button class="setting-image-btn" for="setting-image">Đổi ảnh đại diện</Button>
+        <label id="setting-image-btn" for="setting-image">Đổi ảnh đại diện</label>
+
         <input id="setting-image" name="setting-image" type="file" style="display:none">
         <label class="setting-email">Email: <?php echo $value['email'];?></label>
         <div class="nameBox">

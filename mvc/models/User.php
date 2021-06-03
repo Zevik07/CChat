@@ -119,14 +119,15 @@
             $qr = "UPDATE user SET userName = '$name',gender = '$gender'";
             if ($pass != '')
             {
-                $qr = $qr.",password = ".$pass;
+                $qr = $qr." ,password = "."'$pass'";
             }
             if ($target_file != ''){
-                $qr = $qr.",image = ".$target_file;
+                $qr = $qr." ,image = "."'$target_file'";
             }
 
             $qr = $qr." WHERE email='$userEmail'";
             $rows = mysqli_query($this->con, $qr);
+            $data = array (['status'=>'error','message'=>'Cập nhật không thành công, lỗi update CSDL']);
             if ($rows)
             {
                 $data = ['status'=>'success','message'=>'Cập nhật thành công'];

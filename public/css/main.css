@@ -623,9 +623,6 @@ input:focus{
 .setting-title{
     margin: 0px;
 }
-.setting-email{
-    width: 100%;
-}
 .genderBox{
     width: 100%;
 }
@@ -653,19 +650,24 @@ input:focus{
     font-style: italic;
     font-size: 1.9rem;
 }
-
+#setting-image-btn{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 2px;
+    align-self: center;
+    color: var(--text-color);
+    background-color: var(--white-color);
+    border-radius: 4px;
+}
 .setting-avatar{
     align-self: center;
     width: 180px;
     height: 180px;
     object-fit: cover;
 }
-.setting-image-btn, #setting-submit{
-    align-self: center;
-}
 #setting-submit{
     font-size: 2.4rem;
-    height: 45px;
+    align-self: center;
 }
 /*
 #radio_contacts:checked ~ #inner_right_pannel{
