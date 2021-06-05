@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2021 at 06:45 PM
+-- Generation Time: Jun 05, 2021 at 08:11 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -41,7 +41,8 @@ CREATE TABLE `group` (
 --
 
 INSERT INTO `group` (`groupId`, `groupName`, `groupDate`, `groupMember`, `groupImage`, `userCreate`) VALUES
-('group01', 'NLXDPM', '2021-05-27 10:52:46', 'phu@gmail.com,nhan@gmail.com,trung@gmail.com,loc@gmail.com', 'public/image/Group.jpg', 'phu@gmail.com');
+('group01', 'NLXDPM', '2021-05-27 10:52:46', 'phu@gmail.com,nhan@gmail.com,trung@gmail.com,loc@gmail.com', 'public/image/Group.jpg', 'phu@gmail.com'),
+('group2', 'PM2', '2021-06-05 12:35:26', 'nhan@gmail.com,trung@gmail.com', 'public/image/Group.jpg', 'phu@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -74,7 +75,8 @@ INSERT INTO `message` (`id`, `sender`, `receiver`, `message`, `files`, `date`, `
 (4, 'phu@gmail.com', 'nhan@gmail.com', 'quy', NULL, '2021-05-20 16:08:01', NULL, NULL, NULL, NULL, 0),
 (25, 'nhan@gmail.com', 'group01', '', 'public/image/16225636422422156492670774875254.jpg', '2021-06-01 23:07:52', NULL, NULL, NULL, NULL, 1),
 (26, 'nhan@gmail.com', 'group01', '', 'public/image/16225636771064677309536494492653.jpg', '2021-06-01 23:08:12', NULL, NULL, NULL, NULL, NULL),
-(27, 'nhan@gmail.com', 'group01', 'Tgg', 'public/image/16225637003063716173874128379589.jpg', '2021-06-01 23:08:35', NULL, NULL, NULL, NULL, 0);
+(27, 'nhan@gmail.com', 'group01', 'Tgg', 'public/image/16225637003063716173874128379589.jpg', '2021-06-01 23:08:35', NULL, NULL, NULL, NULL, 0),
+(28, 'phu@gmail.com', 'group01', 'Nguyễn Hữu Thiên Phú', '', '2021-06-02 15:59:37', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -84,7 +86,7 @@ INSERT INTO `message` (`id`, `sender`, `receiver`, `message`, `files`, `date`, `
 
 CREATE TABLE `user` (
   `userId` bigint(20) NOT NULL,
-  `userName` varchar(200) DEFAULT NULL,
+  `userName` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(200) NOT NULL,
   `gender` varchar(6) NOT NULL,
   `password` varchar(64) NOT NULL,
@@ -99,10 +101,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userId`, `userName`, `email`, `gender`, `password`, `date`, `image`, `friend`, `request`) VALUES
-(1, 'Thiên Phú', 'phu@gmail.com', 'Male', '123456', '2020-12-25 15:31:32', 'public/image/phu.jpg', 'nhan@gmail.com,trung@gmail.com', 'loc@gmail.com,khang@gmail.com'),
+(1, ' Thiên Phú KTPM', 'phu@gmail.com', 'Male', '123456', '2020-12-25 15:31:32', 'public/image/phu.jpg-1', 'nhan@gmail.com,trung@gmail.com', 'loc@gmail.com,khang@gmail.com'),
 (2, 'Nhan', 'nhan@gmail.com', 'Female', '123456', '2020-12-25 15:31:49', 'public/image/nhan.jpg', 'phu@gmail.com,trung@gmail.com', 'loc@gmail.com,khang@gmail.com'),
 (3, 'Trung', 'trung@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/trung.jpg', 'nhan@gmail.com,phu@gmail.com', 'khang@gmail.com,loc@gmail.com'),
-(4, 'Loc', 'loc@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/loc.jpg', 'khang@gmail.com', ''),
+(4, 'Loc', 'loc@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/loc.jpg', 'khang@gmail.com,phu@gmail.com', ''),
 (5, 'Khang', 'khang@gmail.com', 'Male', 'password', '2020-12-25 15:32:10', 'public/image/khang.jpg', 'loc@gmail.com', '');
 
 --
