@@ -4,11 +4,12 @@ $(document).ready(
         /*Sự kiện cho các nút điều khiển chính*/
         function showChat(){
             $('#inner-left').css('display','block');
+            $('#inner-right').css('display','flex');
             $('#friend-holder').addClass('friend-holder--column');
             
-            $('#setting').css('display','none');
             $('#friend-manager').css('display','none');
             $('#friend-request').css('display','none');
+            $('#setting').css('display','none');
 
             //css các nút
             $('#user-menu__chat').addClass('active');
@@ -16,12 +17,12 @@ $(document).ready(
             $('#user-menu__setting').removeClass('active');
         }
         function showFriend(){
-            $('#friend-manager').css('display','flex');
+
             $('#friend-request').css('display','block');
             $('#inner-right').css('display','flex');
+            $('#friend-holder').removeClass('friend-holder--column');
 
             $('#inner-left').css('display','none');
-            $('#friend-holder').removeClass('friend-holder--column');
             $('#setting').css('display','none');
 
             
@@ -29,6 +30,8 @@ $(document).ready(
             $('#user-menu__chat').removeClass('active');
             $('#user-menu__friend').addClass('active');
             $('#user-menu__setting').removeClass('active');
+
+            //animation
         }
         function showSetting(){
             $('#inner-left').css('display','none');
@@ -134,7 +137,7 @@ $(document).ready(
                                                 '<p class="message-user-name">'+ item.userName +'</p>'+
                                             '</div>'+
                                             '<div class="message-content">'+
-                                                '<p class="'+optionClass+' message-text">'+ item.message + '</p>'+
+                                                '<p class="'+optionClass+'  message-text">'+ item.message + '</p>'+
                                                 img+
                                                 '<p class="message-time">'+item.date+'</p>'+
                                                 '<i class="fas fa-trash-alt message-delete"></i>'+

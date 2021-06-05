@@ -91,7 +91,8 @@ input:focus{
     outline-color: var(--fourth-color);
 }
 .container{
-    margin:10px
+    margin:10px;
+    
 }
 .header{
     background-color: var(--fifth-color);

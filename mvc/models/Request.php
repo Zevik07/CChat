@@ -63,7 +63,7 @@
                 $requestEmailString = $userEmail;
             }
             else {
-                $requestEmailString = $requestEmailString.",".$email;
+                $requestEmailString = $requestEmailString.",".$userEmail;
             }
             $qr = "UPDATE user
             SET request = '$requestEmailString'
